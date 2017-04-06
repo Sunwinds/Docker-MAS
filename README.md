@@ -24,7 +24,7 @@ The trial version has the following notable limitations:
 
 ### Limited License
 
-The docker Mobile App Services image contains a license that expires on April 18th, 2017. After this date this image will no longer be usable.
+The docker Mobile App Services image contains a license that expires on August 2nd, 2017. After this date this image will no longer be usable.
 
 See the [LICENSE][license-link] file for details.
 
@@ -63,17 +63,18 @@ The master branch is checked out. The master branch is the only stable branch. A
 
 ### Running the Images
 
+1) Open a terminal and type `docker-compose pull` to pull the latest versions of the docker images.
 
-1) Open a terminal and type `docker-compose up`
+2) In the terminal type `docker-compose up`
 
    This starts CA Mobile App Services, MySQL, and Mosquitto Broker.  Ports 443, 8080, and 8443 must be available. See Troubleshooting.
 
-2) Update your hosts file and add `127.0.0.1 mas`
+3) Update your hosts file and add `127.0.0.1 mas`
 
    On a MAC or Linux machine the hosts file is `/etc/hosts`. On Windows, the hosts file is located at `C:\windows\System32\drivers\etc\hosts`
   > Note: If you are using Windows 7 or non-beta version of docker in MAC you will need to run `docker-machine ip` to get the ip address of the docker machine. See [Getting the IP Address of the Docker Instance](#GetIP) for more info.
 
-3) Start creating apps. Login using one of the users from [below](#users)
+4) Start creating apps. Login using one of the users from [below](#users)
 
    * https://mas:8443/oauth/manager
    * https://mas:8443/mag/manager
@@ -136,6 +137,8 @@ export BUNDLE_TEMPLATE_OTK_HOSTNAME=${MAS_HOSTNAME}
 export BUNDLE_TEMPLATE_HOSTNAME_ENCODED=`echo -n ${MAS_HOSTNAME} | base64`
 #This is the base64 encoded version of http://$MAS_HOSTNAME
 export BUNDLE_TEMPLATE_PROTOCOL_HOSTNAME_ENCODED=`echo -n http://${MAS_HOSTNAME} | base64`
+export MDC_HOSTNAME=my-mas.example.com
+export BUNDLE_TEMPLATE_DEV_CONSOLE_CALLBACK=https://my-mas.example.com:443
 docker-compose up
 ```
 
