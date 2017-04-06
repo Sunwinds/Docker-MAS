@@ -24,7 +24,7 @@ The trial version has the following notable limitations:
 
 ### Limited License
 
-The docker Mobile App Services image contains a license that expires on April 18th, 2017. After this date this image will no longer be usable.
+The docker Mobile App Services image contains a license that expires on August 2nd, 2017. After this date this image will no longer be usable.
 
 See the [LICENSE][license-link] file for details.
 
@@ -63,17 +63,18 @@ The master branch is checked out. The master branch is the only stable branch. A
 
 ### Running the Images
 
+1) Open a terminal and type `docker-compose pull` to pull the latest versions of the docker images.
 
-1) Open a terminal and type `docker-compose up`
+2) In the terminal type `docker-compose up`
 
    This starts CA Mobile App Services, MySQL, and Mosquitto Broker.  Ports 443, 8080, and 8443 must be available. See Troubleshooting.
 
-2) Update your hosts file and add `127.0.0.1 mas`
+3) Update your hosts file and add `127.0.0.1 mas`
 
    On a MAC or Linux machine the hosts file is `/etc/hosts`. On Windows, the hosts file is located at `C:\windows\System32\drivers\etc\hosts`
   > Note: If you are using Windows 7 or non-beta version of docker in MAC you will need to run `docker-machine ip` to get the ip address of the docker machine. See [Getting the IP Address of the Docker Instance](#GetIP) for more info.
 
-3) Start creating apps. Login using one of the users from [below](#users)
+4) Start creating apps. Login using one of the users from [below](#users)
 
    * https://mas:8443/oauth/manager
    * https://mas:8443/mag/manager
@@ -136,6 +137,8 @@ export BUNDLE_TEMPLATE_OTK_HOSTNAME=${MAS_HOSTNAME}
 export BUNDLE_TEMPLATE_HOSTNAME_ENCODED=`echo -n ${MAS_HOSTNAME} | base64`
 #This is the base64 encoded version of http://$MAS_HOSTNAME
 export BUNDLE_TEMPLATE_PROTOCOL_HOSTNAME_ENCODED=`echo -n http://${MAS_HOSTNAME} | base64`
+export MDC_HOSTNAME=my-mas.example.com
+export BUNDLE_TEMPLATE_DEV_CONSOLE_CALLBACK=https://my-mas.example.com:443
 docker-compose up
 ```
 
@@ -171,6 +174,28 @@ The following groups are also created:
 
 If you have installation problems, implementation questions, or enhancement requests, create an issue in Git.  
            
+### Cannot Start MAS When Using a Custom Hostname
+
+Any of the following errors indicates that you have changed the hostname in the database since the last installation. Currently, MAS does not support changing hostnames in the existing database:
+
+- `ERROR - liquibase-otk-db.sh: Failed to create or update the OAuth Client for the Developer Console! dockermas_mas_1 exited with code 1`
+- `ERROR - Failed to create or update the otk_db database on mysqldb dockermas_mas_1 exited with code 1`
+- `Error - [-34018] Security error has occurred:`
+
+To allow the new hostname, follow these steps:
+
+1. Run these commands to delete the old volume and hostname:
+
+ `docker-compose rm`  
+ `docker volume rm <volume name>` 
+ 
+ **Important!** Removing the volume removes your existing applications and data.
+
+ **Example**: `docker volume rm dockermas_mysql-data`    
+2. Get the latest compose script (git pull or complete clone), and restart the docker image:
+
+ `docker-compose up`      
+
 ### Cannot Start MAS due to Existing Port Allocation
 When you run ./MAS start, ports 443, 8080, and 8443 must be available, otherwise the service fails to start.
 
@@ -178,14 +203,12 @@ When you run ./MAS start, ports 443, 8080, and 8443 must be available, otherwise
 
 Check to see if you have other images of Docker running, then free up those ports:
 `docker ps`
-Stope any running images:
+Stop any running images:
 `docker kill <containerID>`
 
 Alternatively, specify a different unused port in the OTK-docker-compose file.
 For example: `8081:8080`
 where 8081 is the external port to expose on your machine, and 8080 is the corresponding internal port.
-
-
 
 ### Cannot start the Android Emulator
 
@@ -203,8 +226,6 @@ Do one of the following:
 However, running arm results in a major performance degrade, it takes a while to deploy the app.
 * Use a real device for development.  
 Rooting the device to modify the hosts file is required.
-
-
 
 ## Additional Documentation
 
