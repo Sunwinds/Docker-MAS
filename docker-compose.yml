@@ -31,7 +31,7 @@ services:
     expose:
       - "3306"
   mas:
-    image: caapimcollab/mobile-app-services:4.0.00-beta
+    image: caapimcollab/mobile-app-services:4.0.01-beta
     ports:
       - "8080:8080"
       - ${MAS_PORT}:8443
