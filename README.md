@@ -218,6 +218,8 @@ Failed to sync vcpu reg
  
 Internal error: initial hax sync failed
 
+#### Solution
+
 To resolve above issue, you can install [Intel® Hardware Accelerated Execution Manager (Intel® HAXM)](https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager).
 The SDK Manager will download the installer to the "extras" directory, under the main SDK directory. Even though the SDK manager says "Installed" it actually means that the Intel HAXM executable was downloaded. You will still need to run the installer from the "extras" directory to finish installation.
 
@@ -226,14 +228,6 @@ To reference to the `mas` host from the Android Emulator, please update the syst
 2. adb remount
 3. adb push <Your new host file> /system/etc
 
-#### Solution
-
-Do one of the following:
-
-* Run another image of the emulator which is built with ARM instead of x86. 
-However, running arm results in a major performance degrade, it takes a while to deploy the app.
-* Use a real device for development.  
-Rooting the device to modify the hosts file is required.
 
 ## Additional Documentation
 
