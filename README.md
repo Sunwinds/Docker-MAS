@@ -218,7 +218,7 @@ Failed to sync vcpu reg
  
 Internal error: initial hax sync failed
 
-To resolve above issue, you can install [Intel® Hardware Accelerated Execution Manager (Intel® HAXM)](https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager) 
+To resolve above issue, you can install [Intel® Hardware Accelerated Execution Manager (Intel® HAXM)](https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager).
 The SDK Manager will download the installer to the "extras" directory, under the main SDK directory. Even though the SDK manager says "Installed" it actually means that the Intel HAXM executable was downloaded. You will still need to run the installer from the "extras" directory to finish installation.
 
 To reference to the `mas` host from the Android Emulator, please update the system hosts file and add `10.0.2.2	mas` to the Android Emulator.
