@@ -213,10 +213,18 @@ where 8081 is the external port to expose on your machine, and 8080 is the corre
 ### Cannot start the Android Emulator
 
 There is an incompatibility between HAXM hypervisor and VirtualBox 4.3.30+ which does not allow multiple hypervisors to co-exist.  It is being actively worked on; you can find out more about the issue at [http://b.android.com/197915](http://b.android.com/197915) (Android) and [https://www.virtualbox.org/ticket/14294](https://www.virtualbox.org/ticket/14294) (VirtualBox)
- 
+
 Failed to sync vcpu reg
  
 Internal error: initial hax sync failed
+
+To resolve above issue, you can install [Intel® Hardware Accelerated Execution Manager (Intel® HAXM)](https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager) 
+The SDK Manager will download the installer to the "extras" directory, under the main SDK directory. Even though the SDK manager says "Installed" it actually means that the Intel HAXM executable was downloaded. You will still need to run the installer from the "extras" directory to finish installation.
+
+To reference to the `mas` host from the Android Emulator, please update the system hosts file and add `10.0.2.2	mas` to the Android Emulator.
+1. adb root
+2. adb remount
+3. adb push <Your new host file> /system/etc
 
 #### Solution
 
